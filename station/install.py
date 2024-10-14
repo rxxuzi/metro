@@ -16,7 +16,7 @@ def show_help():
     print("  metro install --list             - List all available apps")
     print("  metro install <app_name>         - Install app to metro/bin")
     print("  metro install -r <app_name>      - Remove app from metro/bin")
-    print("  metro install --help             - Show this help message")
+    print("  metro install --help,-h          - Show this help message")
 
 def list_apps():
     with open(DB_FILE, 'r') as f:
@@ -48,9 +48,13 @@ def install_app(app_name):
     if not url:
         print(f"Error: {app_name} is not available for {arch}.")
         return
-    
+
     file_name = url.split('/')[-1]
     file_path = os.path.join(BIN_DIR, file_name)
+
+    if os.path.exists(file_path):
+        print(f"{file_name} already exists. Removing the old file.")
+        os.remove(file_path)
 
     print(f"Downloading {app_name} from {url}...")
     urllib.request.urlretrieve(url, file_path)
@@ -67,14 +71,17 @@ def install_app(app_name):
         for file in files:
             if os.access(os.path.join(root, file), os.X_OK):
                 shutil.move(os.path.join(root, file), BIN_DIR)
-    
+
     os.remove(file_path)
     print(f"{app_name} has been installed to {BIN_DIR}.")
 
 def remove_app(app_name):
     app_path = os.path.join(BIN_DIR, app_name)
     if os.path.exists(app_path):
-        os.remove(app_path)
+        if os.path.isdir(app_path):
+            shutil.rmtree(app_path)
+        else:
+            os.remove(app_path)
         print(f"{app_name} has been removed from {BIN_DIR}.")
     else:
         print(f"Error: {app_name} is not installed.")
@@ -85,7 +92,7 @@ else:
     command = sys.argv[1]
     if command == '--list':
         list_apps()
-    elif command == '--help':
+    elif command == '--help' or command == '-h':
         show_help()
     elif command == '-r' and len(sys.argv) == 3:
         remove_app(sys.argv[2])
