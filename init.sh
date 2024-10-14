@@ -6,11 +6,10 @@ VIMRC_PATH="$VIMSCRIPT_DIR/.vimrc"
 VIM_COLORS_DIR="$VIMSCRIPT_DIR/color"
 HOME_VIMRC="$HOME/.vimrc"
 HOME_VIM_COLORS="$HOME/.vim/colors"
-BASH_ALIASES_PATH="$STATION_DIR/bashrc/.bash_aliases"
-PKG_BASH_PATH="$STATION_DIR/bashrc/pkg.bash"
+BASH_ALIASES_PATH="$STATION_DIR/bashrc/aliases.bash"
+PKG_BASH_PATH="$STATION_DIR/bashrc/metro.bashrc"
 HOME_BASH_ALIASES="$HOME/.bash_aliases"
 HOME_BASHRC="$HOME/.bashrc"
-ORIGINAL_BASHRC="$HOME/origin.bashrc"
 
 echo "Installing required Python packages with pip3..."
 pip3 install os sys json platform urllib3 tarfile zipfile shutil
@@ -46,24 +45,8 @@ fi
 cp "$VIM_COLORS_DIR"/*.vim "$HOME_VIM_COLORS"
 echo "Vim colorschemes have been copied to ~/.vim/colors."
 
-if [ -f "$HOME_BASH_ALIASES" ]; then
-    read -p ".bash_aliases already exists. Do you want to append the new aliases? (y/n): " append_aliases
-    if [ "$append_aliases" = "y" ]; then
-        cat "$BASH_ALIASES_PATH" >> "$HOME_BASH_ALIASES"
-        echo "New aliases have been appended to ~/.bash_aliases."
-    else
-        echo ".bash_aliases was not modified."
-    fi
-else
-    cp "$BASH_ALIASES_PATH" "$HOME_BASH_ALIASES"
-    echo ".bash_aliases has been applied."
-fi
-
-# bin/metro を PATH に追加
-echo 'export PATH="$PATH:~/metro/bin"' >> ~/.bashrc
 source ~/.bashrc
 chmod +x bin/metro
 echo "bin/metro has been added to the PATH and made executable."
 
-# 最終メッセージ
 echo "Metro has been initialized successfully. Please restart your terminal for changes to take effect."

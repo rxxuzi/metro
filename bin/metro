@@ -20,21 +20,6 @@ _  / / / / /  __/ /_  / /   / /_/ /
 /_/ /_/ /_/\___/\__/ /_/    \____/ 
 "
 
-# ヘルプメニュー
-function show_help() {
-    echo "metro - A CLI app for Linux"
-    echo
-    echo "Usage:"
-    echo "  metro install           - Install the app"
-    echo "  metro venv              - Setup Python virtual environment"
-    echo "  metro vcc               - Vim colorscheme change"
-    echo "  metro prompt            - Change prompt style"
-    echo "  metro version           - Show version information"
-    echo "  metro help              - Show this help message"
-    echo
-    echo "Each command supports '-h' for more information."
-}
-
 function show_version() {
     echo "$ASCII_ART"
     if [ -f "$VERSION_FILE" ]; then
@@ -52,7 +37,23 @@ function show_version() {
     echo "Each command supports '-h' for more information."
 }
 
-# コマンドライン引数による分岐
+# ヘルプメニュー
+function show_help() {
+    echo "metro - A CLI app for Linux"
+    echo
+    echo "Usage:"
+    echo "  metro install           - Install the app"
+    echo "  metro venv              - Setup Python virtual environment"
+    echo "  metro vcc               - Vim colorscheme change"
+    echo "  metro prompt            - Change prompt style"
+    echo "  metro path              - Manage PATH entries"
+    echo "  metro sysinfo           - Display system information"
+    echo "  metro version           - Show version information"
+    echo "  metro help              - Show this help message"
+    echo
+    echo "Each command supports '-h' for more information."
+}
+
 if [ $# -eq 0 ]; then
     show_help
     exit 0
@@ -70,6 +71,12 @@ case "$1" in
         ;;
     prompt)
         bash "$STATION_DIR/shell/chprompt.sh" "${@:2}"
+        ;;
+    path)
+        python3 "$STATION_DIR/path.py" "${@:2}"
+        ;;
+    sysinfo)
+        bash "$STATION_DIR/shell/sysinfo.sh" "${@:2}"
         ;;
     version|--version|-v)
         show_version

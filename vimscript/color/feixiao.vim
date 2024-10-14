@@ -12,7 +12,7 @@ endif
 let g:colors_name="feixiao"
 
 hi Normal          guifg=#fdf5ef guibg=#111111
-hi Comment         guifg=#e8e5e8
+hi Comment         guifg=#484548
 hi Cursor          guifg=#111111 guibg=#fdf5ef
 hi iCursor         guifg=#111111 guibg=#fdf5ef
 hi CursorLine                    guibg=#242328
