@@ -1,0 +1,26 @@
+#!/bin/bash
+
+STATION_DIR="$(cd "$(dirname "$0")/../station" && pwd)"
+
+# ヘルプメニュー
+function show_help() {
+    echo "metro - A CLI app for Linux"
+    echo
+    echo "Usage:"
+    echo "  metro install           - Install the app"
+    echo "  metro help              - Show this help message"
+    echo
+}
+
+case "$1" in
+    install)
+        bash "$STATION_DIR/install.py"
+        ;;
+    help|--help|-h)
+        show_help
+        ;;
+    *)
+        echo "Invalid command. Type 'metro help' for a list of commands."
+        exit 1
+        ;;
+esac
