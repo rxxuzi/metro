@@ -1,6 +1,6 @@
 # metro
 
-**metro** is a CLI application for Linux
+**metro** is a CLI application for Linux that provides tools.
 
 ## Quickstart
 
@@ -23,6 +23,7 @@ You can use the following commands with **metro**:
 - `metro install` - Install apps from the app database.
 - `metro venv` - Set up a Python virtual environment.
 - `metro vcc` - Change Vim color schemes.
+- `metro prompt` - Change prompt style.
 - `metro version` - Show version information and license.
 - `metro help` - Show the help menu.
 

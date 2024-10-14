@@ -1,4 +1,11 @@
-# pkg.1
+# metro pkg
+
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias diff='diff --color=auto'
+alias ip='ip --color=auto'
 
 alias ll=' ls --human-readable --size -1 -S --classify -la --color=auto'
 alias la='ls -A'
@@ -22,3 +29,5 @@ alias pscpu='ps auxf | sort -nr -k 3'
 alias q='exit'
 alias usage='du -ch | grep total'
 alias totalusage='df -hl --total | grep total'
+
+# metro pkg end

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# 各種パスの設定
 STATION_DIR="$(cd "$(dirname "$0")/station" && pwd)"
 VIMSCRIPT_DIR="$(cd "$(dirname "$0")/vimscript" && pwd)"
 VIMRC_PATH="$VIMSCRIPT_DIR/.vimrc"
@@ -8,16 +7,25 @@ VIM_COLORS_DIR="$VIMSCRIPT_DIR/color"
 HOME_VIMRC="$HOME/.vimrc"
 HOME_VIM_COLORS="$HOME/.vim/colors"
 BASH_ALIASES_PATH="$STATION_DIR/bashrc/.bash_aliases"
+PKG_BASH_PATH="$STATION_DIR/bashrc/pkg.bash"
 HOME_BASH_ALIASES="$HOME/.bash_aliases"
-BIN_DIR="$(cd "$(dirname "$0")/bin" && pwd)"
+HOME_BASHRC="$HOME/.bashrc"
+ORIGINAL_BASHRC="$HOME/origin.bashrc"
 
 echo "Installing required Python packages with pip3..."
 pip3 install os sys json platform urllib3 tarfile zipfile shutil
 
-echo 'export PATH=$PATH:~/metro/bin' >> ~/.bashrc
-source ~/.bashrc
-chmod +x "$BIN_DIR/metro"
-echo "bin/metro has been added to the PATH and made executable."
+if [ ! -f "$ORIGINAL_BASHRC" ]; then
+    cp "$HOME_BASHRC" "$ORIGINAL_BASHRC"
+    echo "Original .bashrc has been saved to $ORIGINAL_BASHRC."
+fi
+
+if ! grep -q "source $PKG_BASH_PATH" "$HOME_BASHRC"; then
+    echo "source $PKG_BASH_PATH" >> "$HOME_BASHRC"
+    echo "Contents of pkg.bash have been added to .bashrc."
+else
+    echo "pkg.bash is already sourced in .bashrc."
+fi
 
 if [ -f "$HOME_VIMRC" ]; then
     read -p ".vimrc already exists. Do you want to overwrite it? (y/n): " overwrite_vimrc
@@ -51,4 +59,11 @@ else
     echo ".bash_aliases has been applied."
 fi
 
-echo "Metro has been initialized successfully."
+# bin/metro を PATH に追加
+echo 'export PATH="$PATH:~/metro/bin"' >> ~/.bashrc
+source ~/.bashrc
+chmod +x bin/metro
+echo "bin/metro has been added to the PATH and made executable."
+
+# 最終メッセージ
+echo "Metro has been initialized successfully. Please restart your terminal for changes to take effect."
